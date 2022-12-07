@@ -7,7 +7,7 @@ from pymongo import MongoClient
 from pymongo.errors import DuplicateKeyError, OperationFailure
 from bson.objectid import ObjectId
 from bson.errors import InvalidId
-#mongodbpass = "mongodb+srv://capstone1:capstone1@cluster0.3w9toj8.mongodb.net/?retryWrites=true&w=majority"
+mongodbpass = "mongodb+srv://capstone1:capstone1@cluster0.3w9toj8.mongodb.net/?retryWrites=true&w=majority"
 #connect Mongodb with 
 
 
@@ -23,13 +23,11 @@ from bson.errors import InvalidId
        
 #     return db
 
-mongopass ="mongodb+srv://capstone1:capstone1@database1.l32rjl2.mongodb.net/?retryWrites=true&w=majority"
 
 # # Use LocalProxy to read the global db instance with just `db`
 # db = LocalProxy(get_db)
-# from flask import Flask 
-# client = MongoClient('localhost',27017)
 
-# app = Flask(__name__)
-# db = client.flask_db
-# account_info = db.account_infors
+client = MongoClient('localhost',27017)
+
+db = client.flask_db
+account_info = db.account_infors
