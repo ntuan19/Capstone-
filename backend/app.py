@@ -17,11 +17,13 @@ import subprocess as sp
 #from db.connect import mongopass
 mongopass ="mongodb+srv://capstone1:capstone1@database1.l32rjl2.mongodb.net/?retryWrites=true&w=majority"
 app = Flask(__name__)
+app.debug = True
 app.secret_key = os.environ.get("FN_FLASK_SECRET_KEY", default=False)
 client = MongoClient(mongopass)
+app.config['SECRET_KEY'] = 'Slay!1234'
 db = client.clientinfo
 clientCollection = db.clientCollection 
-app.debug = True 
+
 
 from authentication_helper import check_sign_up,check_email_duplicates
 from dao.crud import Crud
@@ -60,7 +62,6 @@ def create_account():
     retype_password= request.args.get("retype")
     check_signup  =  check_sign_up(password,retype_password)
     check_duplicates = check_email_duplicates(email)
-    print(check_duplicates)
     if check_signup == True and check_duplicates == True:
              client_infor = {"email":email,"password":password}
              insertion = clientCollection.insert_one(client_infor)
@@ -80,15 +81,22 @@ def signin():
     #    flash(dic_info)
        crud = Crud(dic_info)
        #print(crud.dic_data)
-       if crud.find_one():
-          return "Success"
-    
-
-    
-
-
-
-
+       if crud.find():
+            session["email"] = email
+            session["password"]= password
+            return redirect(url_for("account_crud"))
+       else:
+            return redirect(url_for("signin"))
+          
+@app.route("/accountinfor",methods=["POST","GET","UPDATE","DELETE"])
+def account_crud():
+    if session["email"] and session["password"]:
+        return render_template("profile.html")
+    else:
+        return render_template("signup.html")
+if __name__ == '__main__':
+    app.debug = True
+    app.run()
 
 
 
