@@ -90,10 +90,24 @@ def signin():
           
 @app.route("/accountinfor",methods=["POST","GET","UPDATE","DELETE"])
 def account_crud():
-    if session["email"] and session["password"]:
-        return render_template("profile.html")
-    else:
-        return render_template("signup.html")
+    if request.method == "GET":
+            if session["email"] and session["password"]:
+                return render_template("profile.html")
+            return redirect(url_for("signin"))
+    if request.method =="POST":
+        if session["email"] and session["password"]:
+            dic_account_info = {}
+            dic_account_info["first_name"] = request.form["fname"]
+            dic_account_info["last_name"] = request.form["lname"]
+            dic_account_info["address"] = request.form["address"]
+            dic_account_info["phone_number"] = request.form["phonenumber"]
+            dic_account_info["date_of_birth"] = request.form["dateofbirth"]
+            crud = Crud({"email":session["email"],"password":session["password"]})
+            crud.update(dic_account_info)
+        return render_template("profile.html", dic=dic_account_info)
+
+           
+           
 if __name__ == '__main__':
     app.debug = True
     app.run()

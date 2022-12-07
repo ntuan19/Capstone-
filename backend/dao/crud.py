@@ -19,11 +19,9 @@ class Crud():
         print(result)
         return result 
     
-    def update(self):
+    def update(self,replace_val):
         #pydantic would take care of old values & its updated value
-        query = {}
-        replace_val = {}
-        result = clientCollection.update_one(query,{"$set":replace_val})
+        result = clientCollection.update_one(self.dic_data,{"$set":replace_val})
         return result 
     def read(self):
         query = {}
