@@ -92,7 +92,13 @@ def signin():
 def account_crud():
     if request.method == "GET":
             if session["email"] and session["password"]:
-                return render_template("profile.html")
+                crud = Crud({"email":session["email"],"password":session["password"]})
+                result = crud.find()
+                dic_account_info = {"first_name":"N/A","last_name":"N/A","address":"N/A","phone_number":"N/A","date_of_birth":"N/A"}
+                for key in dic_account_info:
+                    if key in result:
+                        dic_account_info[key] = result[key]
+                return render_template("profile.html",dic=dic_account_info)
             return redirect(url_for("signin"))
     if request.method =="POST":
         if session["email"] and session["password"]:
@@ -106,8 +112,14 @@ def account_crud():
             crud.update(dic_account_info)
         return render_template("profile.html", dic=dic_account_info)
 
-           
-           
+@app.route("/news_feed",methods=["POST","GET","UPDATE","DELETE"])
+def news_feed():
+    pass 
+
+@app.route("/investment_registration",methods=["POST","GET","UPDATE","DELETE"])
+def investment_registration():
+    pass 
+          
 if __name__ == '__main__':
     app.debug = True
     app.run()
