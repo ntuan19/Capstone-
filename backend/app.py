@@ -87,7 +87,7 @@ def signin():
             return redirect(url_for("account_crud"))
        else:
             return redirect(url_for("signin"))
-          
+
 @app.route("/accountinfor",methods=["POST","GET","UPDATE","DELETE"])
 def account_crud():
     if request.method == "GET":
@@ -119,7 +119,7 @@ def news_feed():
 @app.route("/investment_registration",methods=["POST","GET","UPDATE","DELETE"])
 def investment_registration():
     pass 
-          
+         
 if __name__ == '__main__':
     app.debug = True
     app.run()

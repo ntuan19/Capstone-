@@ -9,14 +9,13 @@ class Crud():
         #NEEDED pydantic to check data format here
         # pass them through pydantic/make sure the input is the right format
         #check if the information already exists
-        check_infor = self.find_one(self.dic_data)
+        check_infor = self.find(self.dic_data)
         if check_infor:
             raise Exception("Already containing this information")
         else:
             clientCollection.insert_one(self.dic_data)    
     def find(self):
         result = clientCollection.find_one(self.dic_data)
-        print(result)
         return result 
     
     def update(self,replace_val):
@@ -27,8 +26,6 @@ class Crud():
         query = {}
         result = clientCollection.find_one({query})
         return result
-
-
 
 
         
