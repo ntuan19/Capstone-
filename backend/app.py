@@ -1,13 +1,14 @@
 from cgitb import html
-from flask import Flask, render_template, request, redirect, url_for,session,flash
+from flask import Flask, render_template, request, redirect, url_for,session,flash, abort
+from functools import wraps
 # import google.oauth2.credentials
 # import google_auth_oauthlib.flow
 # import flask 
 # import functools
 # import os 
 #https://ankush-chavan.medium.com/creating-flask-application-with-mongodb-database-77ec45b5b995 
-import google.oauth2.credentials
-from authlib.integrations.requests_client import OAuth2Session
+# import google.oauth2.credentials
+# from authlib.integrations.requests_client import OAuth2Session
 import json
 from pymongo import MongoClient 
 import os 
@@ -18,30 +19,37 @@ import subprocess as sp
 mongopass ="mongodb+srv://capstone1:capstone1@database1.l32rjl2.mongodb.net/?retryWrites=true&w=majority"
 app = Flask(__name__)
 app.debug = True
-app.secret_key = os.environ.get("FN_FLASK_SECRET_KEY", default=False)
 client = MongoClient(mongopass)
-app.config['SECRET_KEY'] = 'Slay!1234'
+app.config['SECRET_KEY'] = 'Slay!12fsf34_sfsfsf'
+app.config['WTF_CSRF_ENABLED'] = True
 db = client.clientinfo
+
 clientCollection = db.clientCollection 
+from flask_wtf import FlaskForm
+app = Flask(__name__, static_url_path='/static')
+from investmentapi import connect_to_database, check_database, create_database
+invesment_conn = connect_to_database()
+create_database(invesment_conn)
+print(check_database(invesment_conn))
+
 
 
 from authentication_helper import check_sign_up,check_email_duplicates
 from dao.crud import Crud
+from dataform import InvestmentForm
+from flask_wtf.csrf import CSRFProtect, validate_csrf, generate_csrf
+csrf = CSRFProtect(app)
+app.secret_key = "Slay13353"
 
-#app.register_blueprint(google_auth.app)
+import uuid
+res = uuid.uuid4().hex
+print(res)
 
-# @app.route('/login')
-# def index():
-#     if google_auth.is_logged_in():
-#         user_info = google_auth.get_user_info()
-#         return '<div>You are currently logged in as ' + user_info['given_name'] + '<div><pre>' + json.dumps(user_info, indent=4) + "</pre>"
-
-#     return 'You are not currently logged in.'
 
 @app.route('/')
 def home():
     date = sp.getoutput("date /t")
-    return render_template("home.html",data=date)
+    return render_template("hello.html",data=date)
 
 @app.route('/home')
 def account_creation():
@@ -70,23 +78,41 @@ def create_account():
             #  return redirect(url_for("signup"))
             return render_template("signup.html")
             
-@app.route("/signin",methods=["POST","GET"])
+# @app.route("/signin",methods=["POST","GET"])
+# def signin():
+#     if request.method =="GET":
+#         return render_template("signin.html")
+#     elif request.method == "POST":
+#        email = request.form["email"]
+#        password = request.form["password"]
+#        dic_info = {"email":email,"password":password}
+#     #    flash(dic_info)
+#        crud = Crud(dic_info)
+#        #print(crud.dic_data)
+#        if crud.find():
+#             session["email"] = email
+#             session["password"]= password
+#             return redirect(url_for("account_crud"))
+#        return redirect(url_for("signin"))
+
+@app.route("/signin", methods=["POST","GET"])
 def signin():
-    if request.method =="GET":
+    if request.method == "GET":
         return render_template("signin.html")
     elif request.method == "POST":
-       email = request.form["email"]
-       password = request.form["password"]
-       dic_info = {"email":email,"password":password}
-    #    flash(dic_info)
-       crud = Crud(dic_info)
-       #print(crud.dic_data)
-       if crud.find():
-            session["email"] = email
-            session["password"]= password
-            return redirect(url_for("account_crud"))
-       else:
-            return redirect(url_for("signin"))
+        print(request.form.get("csrf_token"))
+        if not validate_csrf(request.form.get('csrf_token')):
+            print("Yes")
+            email = request.form["email"]
+            password = request.form["password"]
+            dic_info = {"email": email, "password": password}
+            crud = Crud(dic_info)
+            if crud.find():
+                session["email"] = email
+                session["password"] = password
+                return redirect(url_for("account_crud"))
+        return redirect(url_for("signin"))
+
 
 @app.route("/accountinfor",methods=["POST","GET","UPDATE","DELETE"])
 def account_crud():
@@ -116,9 +142,76 @@ def account_crud():
 def news_feed():
     pass 
 
-@app.route("/investment_registration",methods=["POST","GET","UPDATE","DELETE"])
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if "email" not in session or "password" not in session:
+            return redirect(url_for("signin"))
+        return f(*args, **kwargs)
+    return decorated_function
+
+@app.route('/investment_registration', methods=['GET', 'POST'])
+@login_required
 def investment_registration():
-    pass 
+    form = InvestmentForm()
+    if request.method == 'GET':
+        return render_template('investment.html', form=form)
+    elif request.method == 'POST':
+        if form.validate_on_submit():
+            token = request.form.get("csrf_token")
+            #get the or unique user id 
+            email = session["email"]
+            password = session["password"]
+            dic_info = {"email": email, "password": password}
+            crud = Crud(dic_info)
+            result = crud.find()
+            unique_id = result["_id"]
+            # process the form data
+            # if validate_csrf(token):
+            #     flash('CSRF validation not failed')
+            #     sql = "INSERT INTO investments (investment_id, investment_poster_id, business_registration, business_address, company_name, current_round, presentation, pictures, financial_situation, approved) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+
+            #     return 'Form submitted successfully!'
+            # else:
+            #     return "Invalid CSRF"
+            investment_id = uuid.uuid4().hex
+            # sql = "INSERT INTO investments (investment_id, investment_poster_id, business_registration, business_address, company_name, current_round, presentation, pictures, financial_situation, approved) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+            sql = "INSERT INTO investments (investment_id, investment_poster_id, business_registration, business_address, company_name, current_round) VALUES (%s, %s, %s, %s, %s, %s)"
+            investment_data = (
+                investment_id,  
+                unique_id, 
+                form.business_registration.data,
+                form.business_address.data,
+                form.company_name.data,
+                form.current_rounds.data)
+                # form.presentation.data,
+                # form.pictures.data,
+                # form.financial_situation.data,
+                # form.approved.data)
+            cursor = invesment_conn.cursor()
+            cursor.execute(sql, investment_data)
+            invesment_conn.commit()
+
+            sql_2 = "SELECT * FROM investments"
+            cursor.execute(sql)
+
+            # Fetch all the rows
+            rows = cursor.fetchall()
+
+            # Print the rows
+            for row in rows:
+                print(row)
+            print(cursor.fetchall())
+            
+            cursor.close()
+            print("Data")
+            flash('Investment posted successfully!')
+            return redirect(url_for('investment_registration'))
+
+        else:
+            # handle form validation errors
+            return render_template('investment.html', form=form)
+        
          
 if __name__ == '__main__':
     app.debug = True

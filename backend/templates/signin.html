@@ -1,5 +1,109 @@
-<form action = "#" method="post">
+<!-- <!-- <form action = "#" method="post">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
     <p>Email<br><input type="text" name="email" placeholder="Enter email"></p>
     <p>Password<br><input type="password" name="password" placeholder="Enter Password"></p>
     <input type="submit" value="submit">
-</form>
+</form> -->
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sign In</title>
+  <link rel="stylesheet" href="../static/css/signin.css">
+</head>
+<body>
+  <div class="container">
+    <form class="login-form" method="post" action="{{ url_for('signin') }}">
+      <h1>Sign In</h1>
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email address">
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Enter your password">
+      </div>
+      <button type="submit">Sign In</button>
+    </form>
+    <div class="feature is-revealing">
+        <div class="feature-inner">
+            <div class="feature-icon">
+                <img class="asset-light" src="../static/dist/images/feature-02-light.svg" alt="Feature 02">
+                <img class="asset-dark" src="../static/dist/images/feature-02-dark.svg" alt="Feature 02">
+            </div>
+        </div>
+    </div>
+    
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>  -->
+<!-- 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sign In</title>
+  <link rel="stylesheet" href="../static/css/signin.css">
+</head>
+<body>
+    <div class="container-sm">
+        <div class="features-image">
+            <div class="container">
+                <form class="login-form" method="post" action="{{ url_for('signin') }}">
+                  <h1>Sign In</h1>
+                  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                  <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Enter your email address">
+                  </div>
+                  <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter your password">
+                  </div>
+                  <button type="submit">Sign In</button>
+                </form>
+                
+              </div>
+            <img class="features-illustration asset-light" src="../static/dist/images/features-illustration-light.svg" alt="Feature illustration">
+        </div>
+    </div> -->
+  
+  <!-- <script src="app.js"></script> -->
+<!-- </body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sign In</title>
+  <link rel="stylesheet" href="../static/css/signin.css">
+</head>
+<body>
+    <div class="container-sm">
+        <div class="features-image">
+            <div class="container">
+                <form class="login-form" method="post" action="{{ url_for('signin') }}">
+                  <h1 class="text-sm mb-0">Sign In</h1>
+                  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                  <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Enter your email address">
+                  </div>
+                  <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter your password">
+                  </div>
+                  <button type="submit">Sign In</button>
+                </form>
+              </div>
+            <img class="features-illustration asset-light" src="../static/dist/images/features-illustration-light.svg" alt="Feature illustration">
+        </div>
+    </div>
+</body>
+</html>
+

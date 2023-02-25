@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/investment.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header">{{ form.business_registration.label }}</div>
+        <div class="card-body">
+          <form method="POST" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+
+            <div class="form-group">
+              {{ form.business_registration(class="form-control", placeholder="Business Registration Number") }}
+            </div>
+
+            <div class="form-group">
+              {{ form.business_address(class="form-control", placeholder="Business Address") }}
+            </div>
+
+            <div class="form-group">
+              {{ form.company_name(class="form-control", placeholder="Company Name") }}
+            </div>
+
+            <div class="form-group">
+              {{ form.current_rounds(class="form-control", placeholder="Current Funding Round") }}
+            </div>
+
+            <div class="form-group">
+              {{ form.total_funding_wanted(class="form-control", placeholder="Total Funding Wanted") }}
+            </div>
+
+            <div class="form-group">
+              {{ form.currency(class="form-control", placeholder="Currency") }}
+            </div>
+
+            <div class="form-group">
+              {{ form.presentation(class="form-control", placeholder="Investment Presentation") }}
+            </div>
+
+            <div class="form-group">
+              {{ form.pictures(class="form-control", placeholder="Upload pictures") }}
+            </div>
+
+            <div class="form-group">
+              {{ form.financial_situation(class="form-control", placeholder="Current Financial Situation") }}
+            </div>
+
+            <div class="form-group">
+              {{ form.tax_returns(class="form-control", placeholder="Tax Returns for the 5 years") }}
+            </div>
+
+            <div class="form-group">
+              {{ form.financial_statements(class="form-control", placeholder="Financial Statements") }}
+            </div>
+
+            <div class="form-group">
+              {{ form.customers_dataset(class="form-control", placeholder="Customers Segmentation/Base") }}
+            </div>
+
+            <div class="form-group">
+              {{ form.supporting_documents(class="form-control", placeholder="Supporting Documents") }}
+            </div>
+
+            <div class="form-group mb-0">
+              <button type="submit" class="btn btn-primary btn-block">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

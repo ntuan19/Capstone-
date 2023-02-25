@@ -1,6 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Account CRUD</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='account_crud.css') }}">
+</head>
+<body>
 {% extends "base.html" %}
+
 {% block content %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/account_creation.css') }}">
 <form method="post" action="#">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
     <label for="fname">First name:</label><br>
     <input type="text" id="fname" name="fname" value="{{dic['first_name']}}"><br>
     <label for="lname">Last name:</label><br>
@@ -15,3 +25,7 @@
     <input type="submit" value="Submit">
 </form>
 {% endblock %}
+</body>
+</html>
+
+
