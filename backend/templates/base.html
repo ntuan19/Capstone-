@@ -1,35 +1,82 @@
+
+
+
 <!DOCTYPE html> 
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %} {% endblock %} - FlaskApp</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
+
+    <title>{% block title %}FlaskApp{% endblock %}</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <style>
+        .navbar-nav{
+            height: 50px;
+
+        }
         .message {
             padding: 10px;
             margin: 5px;
             background-color: #f3f3f3
         }
         nav a {
-            color: #d64161;
-            font-size: 3em;
+            color: #ff6b6b;
+            font-size: 2.5em;
             margin-left: 50px;
             text-decoration: none;
         }
-
+        nav a:hover {
+            color: #fff;
+        }
+        .nav-link{
+            color: blanchedalmond;
+            height: 40px;
+            font-size: 25px;
+        }
+        .span-class{
+            margin-right: 200px;
+        }
     </style>
 </head>
 <body>
-    <nav>
-        <a href="/home"> Main Website</a>
-        <a href="/accountinfor">Account Information</a>
-        <a href="/signup">Sign Up</a>
-        <a href="/signin"> Sign In</a>
-        <a href="/news_feed">News Feed</a>
-        <a href="/investment_registration"> Investmnent Registration</a>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="/home">Flex Fund Inc</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <span class="span-class"></span>
+                <li class="nav-item">
+                    <a class="nav-link" href="/accountinfor">Account Information</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/signup">Sign Up</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/signin">Sign In</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/news_feed">News Feed</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/investment_registration">Investment Registration</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" id="logout-link">Log out</a>
+                </li>
+
+            </ul>
+        </div>
     </nav>
-    <hr>
-    <div class="content">
+    <div class="container my-5">
         {% block content %} {% endblock %}
     </div>
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="{{ url_for('static', filename='interactive/logout.js') }}"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
 </html>

@@ -1,0 +1,99 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+      .news-feed {
+        width: 900px;
+        margin: 0 auto;
+      }
+      .post {
+        border: 1px solid #ccc;
+        padding: 50px;
+        margin-bottom: 20px;
+      }
+      .post-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 5px;
+      }
+      .profile-image {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-right: 10px;
+      }
+      .post-content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 400px;
+        margin-top: 10px;
+      }
+      .post-image {
+        max-width: 100%;
+        max-height: 100%;
+      }
+      .post-content-infor {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: left;
+        height: 50px;
+        margin-top: 10px;}
+      .address {
+      /* Add your styles for the address element here */
+      font-size: 18px;
+      color: #333;
+      }
+      .address::before {
+       content: "\1F3E0"; /* Unicode character for the home icon */
+       margin-right: 10px;
+      }
+      .company-name{
+          font-size: 23px;
+          color:black ;
+          margin-right: 10px;
+          font-weight: bold;
+      }
+      .fa-money {
+    font-size: 24px;
+    color: green;
+      }
+      .post-content-infor i,
+.post-content-infor span {
+    display: inline-block;
+}
+    </style>
+<body>
+    {% extends "base.html" %}
+    {% block content %}
+
+
+    <div class="news-feed">
+        {% for investment in investments %}
+        <div class="post">
+          <div class="post-header">
+            <img class="profile-image" src="{{ investment.profile_image }}" alt="Profile Image">
+            <!-- <div class="profile-name">{{ investment.profile_name }}</div> -->
+            <p class="company-name">  {{investment.company_name}}</p>
+            <p class=" address">{{investment.business_address}}</p>
+          </div>
+          <div class="post-content-infor">
+              <i class="fa fa-money"></i> <span> We are seeking total amount :{{investment.total_funding_wanted}} {{investment.currency}} </span>
+          </div>
+          <div>
+                  Current financial situation: {{investment.financial_situation}}
+          </div>
+          <div>
+             Total amount raised: ;
+  
+          </div>
+          <div class="post-content">
+                <img class="post-image" src="{{ investment.image_uri }}" alt="Post Image">
+          </div>
+        </div>
+        <br>
+        {% endfor %}
+      </div>
+      {% endblock %}
+
+</body>
+    

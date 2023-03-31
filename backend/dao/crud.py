@@ -1,5 +1,5 @@
 from flask import request, flash 
-from app import clientCollection
+from app import clientCollection,investmentCollection
 
 class Crud():
     def __init__(self,dic_data) -> None:
@@ -26,6 +26,38 @@ class Crud():
         query = {}
         result = clientCollection.find_one({query})
         return result
+    def insert_investment(self):
+        #NEEDED pydantic to check data format here
+        # pass them through pydantic/make sure the input is the right format
+        #check if the information already exists
+        check_infor = self.find_investment()
+        if check_infor:
+            result = "Already containing this information"
+            return False 
+        else:
+            investmentCollection.insert_one(self.dic_data)   
+            return True
+
+    def find_investment(self):
+        result = investmentCollection.find_one(self.dic_data)
+        if not result:
+            return False
+        return result 
+    
+    def query_filter(self,filter):
+        result = investmentCollection.find(filter,{'_id': 0})
+        return result
+        
+        
+
+        
+
+        
+
+        
+       
+      
+    
 
 
         

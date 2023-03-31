@@ -57,7 +57,6 @@ class Solution:
                 dic[account[1]].add(email)
                 email_to_name[email] = name
 
-
         def dfs(intial_email,dic,visited):
             if intial_email in visited:
                 return 
